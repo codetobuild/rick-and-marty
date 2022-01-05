@@ -40,7 +40,7 @@ const Register = () => {
     navigate("/login", { replace: true });
   };
 
-  useEffect()
+  useEffect();
 
   return (
     <>
