@@ -1,6 +1,11 @@
-# Getting Started with Create React App
+# Rick And Marty
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a simple front-end project that displays the episode Characters. It includes featues like user registration and login.
+More features are to be added to this project. So, stay tuned.
+
+## Project status
+
+Currently under development
 
 ## Available Scripts
 
