@@ -1,3 +1,4 @@
+
 const logoutUser = async () => {
   try {
     if (!localStorage.getItem("isLoggedIn")) {

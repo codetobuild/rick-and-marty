@@ -39,8 +39,7 @@ const Register = () => {
     // redirect to login page
     navigate("/login", { replace: true });
   };
-
-  useEffect();
+  
 
   return (
     <>
