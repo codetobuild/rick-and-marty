@@ -2,6 +2,7 @@ import Login from "./Components/Login";
 import Register from "./Components/Register";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Home from "./Components/Home";
 
 function App() {
   return (
@@ -13,10 +14,6 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
-}
-
-function Home() {
-  return <h1>HOME PAGE UNDER DEVELOPMENT</h1>;
 }
 
 export default App;

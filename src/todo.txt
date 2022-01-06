@@ -4,3 +4,4 @@ Routes
 /login = login
 /register = register
 /savedcharacters = savedcharacters
+
