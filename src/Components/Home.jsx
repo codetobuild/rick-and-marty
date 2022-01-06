@@ -1,17 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Container,
-  TextField,
-  Box,
-  Stack,
-  Autocomplete,
-  MenuItem,
-  Select,
-  Typography,
-  FormControl,
-  IconButton,
-} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+
 import SearchBar from "./SearchBar";
 import CharacterList from "./CharacterList";
 import getCharacters from "../API/Characters";
@@ -19,11 +7,17 @@ const Home = () => {
   const [charactersData, setCharactersData] = useState([]);
   const [filteredCharactersData, setfilteredCharactersData] = useState([]);
 
+  // filter character based on search text
   const filterCharacters = ({ searchText = "", searchBy = "name" }) => {
     console.log(searchText);
     console.log(searchBy);
+    const currentFilteredCharacters = charactersData.filter((item) => {
+      searchText = searchText.trim().toLocaleLowerCase();
+      return searchText === item[searchBy].trim().toLocaleLowerCase();
+    });
+    setfilteredCharactersData([...currentFilteredCharacters]);
   };
-
+  // get characters data with api call
   useEffect(() => {
     const fetchCharacters = async () => {
       try {
@@ -37,6 +31,7 @@ const Home = () => {
     fetchCharacters();
   }, []);
 
+  // set filterCharacters data
   useEffect(() => {
     // console.log(charactersData);
     setfilteredCharactersData([...charactersData]);
@@ -44,7 +39,10 @@ const Home = () => {
 
   return (
     <div>
-      <SearchBar filterCharacters={filterCharacters} />
+      <SearchBar
+        filterCharacters={filterCharacters}
+        charactersData={charactersData}
+      />
       <CharacterList characters={filteredCharactersData} />
     </div>
   );

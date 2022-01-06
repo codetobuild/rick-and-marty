@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import {
   Container,
   TextField,
@@ -19,20 +20,36 @@ const top100Films = [
 ];
 
 const SearchBar = (props) => {
-  const { filterCharacters } = props;
+  const { filterCharacters, charactersData } = props;
 
   const [value, setValue] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [searchBy, setSearchBy] = useState("name");
+  const [autosuggesstions, setAutosuggesstions] = useState([]);
 
   const handleClick = (e) => {
     const filterCondition = { searchBy, searchText: inputValue };
     setInputValue("");
+    // raise event 
     if (searchBy && inputValue) {
       filterCharacters(filterCondition);
     }
   };
 
+  // update autosuggestions
+  useEffect(() => {
+    let currentAutosuggestions = [];
+    if (charactersData?.length) {
+      currentAutosuggestions = charactersData.map((item) =>
+        String(item[searchBy])
+      );
+    }
+    // remove duplicate suggestions
+    currentAutosuggestions = [...new Set(currentAutosuggestions)];
+    setAutosuggesstions(currentAutosuggestions);
+  }, [searchBy, charactersData]);
+
+  // component function
   return (
     <Container
       sx={{
@@ -63,8 +80,7 @@ const SearchBar = (props) => {
             onInputChange={(event, newInputValue) => {
               setInputValue(newInputValue);
             }}
-            options={top100Films}
-            getOptionLabel={(item) => item.title || ""}
+            options={autosuggesstions}
             id="auto-complete"
             autoComplete
             includeInputInList
