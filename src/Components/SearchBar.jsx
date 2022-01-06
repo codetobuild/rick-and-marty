@@ -30,7 +30,7 @@ const SearchBar = (props) => {
   const handleClick = (e) => {
     const filterCondition = { searchBy, searchText: inputValue };
     setInputValue("");
-    // raise event 
+    // raise event
     if (searchBy && inputValue) {
       filterCharacters(filterCondition);
     }
@@ -53,7 +53,7 @@ const SearchBar = (props) => {
   return (
     <Container
       sx={{
-        marginBottom: 5,
+        marginBottom: "30px",
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",

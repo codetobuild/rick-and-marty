@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import SearchBar from "./SearchBar";
 import CharacterList from "./CharacterList";
 import getCharacters from "../API/Characters";
+import Navbar from "./Navbar";
 const Home = () => {
   const [charactersData, setCharactersData] = useState([]);
   const [filteredCharactersData, setfilteredCharactersData] = useState([]);
@@ -38,13 +39,14 @@ const Home = () => {
   }, [charactersData]);
 
   return (
-    <div>
+    <>
+      <Navbar />
       <SearchBar
         filterCharacters={filterCharacters}
         charactersData={charactersData}
       />
       <CharacterList characters={filteredCharactersData} />
-    </div>
+    </>
   );
 };
 
