@@ -1,14 +1,35 @@
-import { useState, useEffect } from "react";
-
-import SearchBar from "./SearchBar";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import CharacterList from "./CharacterList";
-import getCharacters from "../API/Characters";
 import Navbar from "./Navbar";
+import SearchBar from "./SearchBar";
 import { Typography, Container } from "@mui/material";
 
-const Home = () => {
+const SavedCharacters = () => {
   const [charactersData, setCharactersData] = useState([]);
   const [filteredCharactersData, setfilteredCharactersData] = useState([]);
+  const navigate = useNavigate();
+
+  // access only if logged in
+  useEffect(() => {
+    if (!localStorage.getItem("isLoggedIn")) {
+      navigate("/login", { replace: true });
+    }
+  });
+
+  // get saved characters from local storage
+  useEffect(() => {
+    let savedCharacters = localStorage.getItem("saveCharacters");
+
+    savedCharacters = JSON.parse(savedCharacters);
+    console.log(savedCharacters);
+    setCharactersData([...savedCharacters]);
+  }, []);
+
+  // set filterCharacters state
+  useEffect(() => {
+    setfilteredCharactersData([...charactersData]);
+  }, [charactersData]);
 
   // filter character based on search text
   const filterCharacters = ({ searchText = "", searchBy = "name" }) => {
@@ -20,25 +41,6 @@ const Home = () => {
     });
     setfilteredCharactersData([...currentFilteredCharacters]);
   };
-  // get characters data with api call
-  useEffect(() => {
-    const fetchCharacters = async () => {
-      try {
-        const data = await getCharacters();
-        setCharactersData([...data?.results]);
-        // console.log(charactersData);
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
-    fetchCharacters();
-  }, []);
-
-  // set filterCharacters data
-  useEffect(() => {
-    // console.log(charactersData);
-    setfilteredCharactersData([...charactersData]);
-  }, [charactersData]);
 
   return (
     <>
@@ -49,7 +51,7 @@ const Home = () => {
       />
       <Container sx={{ marginBottom: 1 }}>
         <Typography variant="h4" sx={{ textAlign: "center" }}>
-          All Characters
+          Saved Characters
         </Typography>
       </Container>
       <CharacterList characters={filteredCharactersData} />
@@ -57,4 +59,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default SavedCharacters;

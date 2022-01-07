@@ -1,15 +1,24 @@
 import React from "react";
 import Character from "./Character";
 import { Container, Grid, Paper } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import saveCharacterToDatabase from "../API/saveCharacter";
 
 const CharacterList = (props) => {
-  const { characters,  } = props;
+  const { characters } = props;
+  const navigate = useNavigate();
+
+  const checkLoggedIn = () => localStorage.getItem("isLoggedIn");
 
   const handleSaveCharacter = async (payload) => {
     try {
+      if (!checkLoggedIn()) {
+        // is not logged in navigate to login
+        navigate("/login");
+        return;
+      }
       const savedCharacter = await saveCharacterToDatabase(payload);
       console.log("data saved", savedCharacter);
       if (!savedCharacter.success) {

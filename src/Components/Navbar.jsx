@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Container, Typography, Menu, MenuItem, Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
@@ -7,12 +7,20 @@ import "../App.css";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    console.log("logout");
+    navigate("/", { replace: true });
   };
 
   const NavlinkStyle = {
@@ -56,6 +64,11 @@ const Navbar = () => {
             justifyContent: "space-between",
           }}>
           <li style={{ listStyleType: "none" }}>
+            <NavLink to="/" style={{ ...NavlinkStyle, color: "white" }}>
+              Home
+            </NavLink>
+          </li>
+          <li style={{ listStyleType: "none" }}>
             <NavLink
               to="/savedcharacters"
               style={{ ...NavlinkStyle, color: "white" }}>
@@ -64,7 +77,10 @@ const Navbar = () => {
           </li>
           <li style={{ listStyleType: "none" }}>
             {localStorage.getItem("isLoggedIn") ? (
-              <NavLink to="" style={{ ...NavlinkStyle, color: "white" }}>
+              <NavLink
+                to=""
+                style={{ ...NavlinkStyle, color: "white" }}
+                onClick={handleLogout}>
                 Logout
               </NavLink>
             ) : (
@@ -104,6 +120,11 @@ const Navbar = () => {
             horizontal: "left",
           }}>
           <MenuItem onClick={handleClose}>
+            <NavLink to="/" style={{ ...NavlinkStyle, color: "black" }}>
+              Home
+            </NavLink>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
             <NavLink
               to="/savedcharacters"
               style={{ ...NavlinkStyle, color: "black" }}>
@@ -113,7 +134,10 @@ const Navbar = () => {
 
           {localStorage.getItem("isLoggedIn") ? (
             <MenuItem onClick={handleClose}>
-              <NavLink to="" style={{ ...NavlinkStyle, color: "black" }}>
+              <NavLink
+                to=""
+                style={{ ...NavlinkStyle, color: "black" }}
+                onClick={handleLogout}>
                 Logout
               </NavLink>
             </MenuItem>
