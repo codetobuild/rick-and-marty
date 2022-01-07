@@ -5,7 +5,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Components/Home";
 import SavedCharacters from "./Components/SavedCharacters";
 
-
 function App() {
   return (
     <BrowserRouter>
