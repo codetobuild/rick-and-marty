@@ -124,7 +124,7 @@ const SearchBar = (props) => {
             <MenuItem value="name">Name</MenuItem>
             <MenuItem value="species">Species</MenuItem>
             <MenuItem value="gender">Gender</MenuItem>
-            <MenuItem value="species">Species</MenuItem>
+            <MenuItem value="status">Status</MenuItem>
           </Select>
         </FormControl>
       </Box>

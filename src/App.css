@@ -1,9 +1,46 @@
+*,
+:before,
+:after {
+  box-sizing: border-box;
+}
+
 .large {
   display: block;
 }
-
 .small {
   display: none;
+}
+
+.card_flipper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: cubic-bezier(0.6, -0.28, 0.735, 0.045) 0.5s;
+}
+
+.card_flipper:hover {
+  transform: rotateY(180deg);
+}
+
+.card_flipper_front,
+.card_flipper_back {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.card_flipper_front {
+  color: black;
+}
+
+.card_flipper_back {
+  background-color: #00e49f;
+  color: rgb(0, 0, 0);
+  transform: rotateY(180deg);
 }
 
 @media screen and (max-width: 500px) {
