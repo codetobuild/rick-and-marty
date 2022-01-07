@@ -4,6 +4,7 @@ import {
   Container,
   TextField,
   Box,
+  Chip,
   Stack,
   Autocomplete,
   MenuItem,
@@ -14,26 +15,28 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-const top100Films = [
-  { title: "The Shawshank Redemption", year: 1994 },
-  { title: "The Godfather", year: 1972 },
-];
-
 const SearchBar = (props) => {
-  const { filterCharacters, charactersData } = props;
+  const { filterCharacters, charactersData, clearFilterTag } = props;
 
   const [value, setValue] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [searchBy, setSearchBy] = useState("name");
   const [autosuggesstions, setAutosuggesstions] = useState([]);
+  const [filterTag, setFilterTag] = useState("");
 
   const handleClick = (e) => {
     const filterCondition = { searchBy, searchText: inputValue };
-    setInputValue("");
     // raise event
     if (searchBy && inputValue) {
       filterCharacters(filterCondition);
+      setFilterTag(inputValue);
+      setInputValue("");
     }
+  };
+  const handleTagDelete = (e) => {
+    // clear all filters so display all data again
+    clearFilterTag(); // raise event
+    setFilterTag(""); // reset filter tag
   };
 
   // update autosuggestions
@@ -128,6 +131,11 @@ const SearchBar = (props) => {
           </Select>
         </FormControl>
       </Box>
+      {filterTag && (
+        <Stack direction="row" spacing={1} sx={{ flex: "0 0 100%", margin: 1 }}>
+          <Chip label={filterTag} onDelete={handleTagDelete} sx={{}} />
+        </Stack>
+      )}
     </Container>
   );
 };

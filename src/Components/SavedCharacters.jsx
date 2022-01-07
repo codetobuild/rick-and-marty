@@ -41,6 +41,10 @@ const SavedCharacters = () => {
     });
     setfilteredCharactersData([...currentFilteredCharacters]);
   };
+  // clear all filters
+  const clearFilterTag = () => {
+    setfilteredCharactersData([...charactersData]);
+  };
 
   return (
     <>
@@ -48,6 +52,7 @@ const SavedCharacters = () => {
       <SearchBar
         filterCharacters={filterCharacters}
         charactersData={charactersData}
+        clearFilterTag={clearFilterTag}
       />
       <Container sx={{ marginBottom: 1 }}>
         <Typography variant="h4" sx={{ textAlign: "center" }}>

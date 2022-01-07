@@ -20,6 +20,11 @@ const Home = () => {
     });
     setfilteredCharactersData([...currentFilteredCharacters]);
   };
+  // clear all filters
+  const clearFilterTag = () => {
+    setfilteredCharactersData([...charactersData]);
+  };
+
   // get characters data with api call
   useEffect(() => {
     const fetchCharacters = async () => {
@@ -45,6 +50,7 @@ const Home = () => {
       <Navbar />
       <SearchBar
         filterCharacters={filterCharacters}
+        clearFilterTag={clearFilterTag}
         charactersData={charactersData}
       />
       <Container sx={{ marginBottom: 1 }}>
