@@ -4,6 +4,8 @@ import CharacterList from "./CharacterList";
 import Navbar from "./Navbar";
 import SearchBar from "./SearchBar";
 import { Typography, Container } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SavedCharacters = () => {
   const [charactersData, setCharactersData] = useState([]);
@@ -31,7 +33,19 @@ const SavedCharacters = () => {
     setfilteredCharactersData([...charactersData]);
   }, [charactersData]);
 
-  // filter character based on search text
+  // remove saved character
+  const removeCharacter = (payload) => {
+    let characters = localStorage.getItem("saveCharacters");
+    characters = JSON.parse(characters);
+    const updatedCharacters = characters?.filter(
+      (item) => item.id !== payload.id
+    );
+    localStorage.setItem("saveCharacters", JSON.stringify(updatedCharacters));
+    setCharactersData([...JSON.parse(localStorage.getItem("saveCharacters"))]);
+    toast.success(`${payload.name} removed successfully`);
+  };
+
+  // filter characters based on search text
   const filterCharacters = ({ searchText = "", searchBy = "name" }) => {
     console.log(searchText);
     console.log(searchBy);
@@ -48,6 +62,15 @@ const SavedCharacters = () => {
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnHover
+      />
       <Navbar />
       <SearchBar
         filterCharacters={filterCharacters}
@@ -59,7 +82,10 @@ const SavedCharacters = () => {
           Saved Characters
         </Typography>
       </Container>
-      <CharacterList characters={filteredCharactersData} />
+      <CharacterList
+        characters={filteredCharactersData}
+        removeCharacter={removeCharacter}
+      />
     </>
   );
 };

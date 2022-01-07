@@ -3,7 +3,7 @@ import { Button, Box, Typography } from "@mui/material";
 import "../App.css";
 
 const Character = (props) => {
-  const { character, handleSaveCharacter } = props;
+  const { character, handleSaveCharacter, removeCharacter } = props;
 
   const handleClick = (payload) => {
     handleSaveCharacter(payload); // raise event
@@ -49,12 +49,21 @@ const Character = (props) => {
             </Typography>
           </div>
 
-          <Button
-            variant="contained"
-            sx={{ width: "100%" }}
-            onClick={() => handleClick(character)}>
-            SAVE
-          </Button>
+          {removeCharacter ? (
+            <Button
+              variant="contained"
+              sx={{ width: "100%" }}
+              onClick={() => removeCharacter(character)}>
+              REMOVE
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              sx={{ width: "100%" }}
+              onClick={() => handleClick(character)}>
+              SAVE
+            </Button>
+          )}
         </Box>
       </div>
     </div>

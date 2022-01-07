@@ -7,9 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import saveCharacterToDatabase from "../API/saveCharacter";
 
 const CharacterList = (props) => {
-  const { characters } = props;
+  const { characters, removeCharacter } = props;
   const navigate = useNavigate();
-
   const checkLoggedIn = () => localStorage.getItem("isLoggedIn");
 
   const handleSaveCharacter = async (payload) => {
@@ -57,6 +56,7 @@ const CharacterList = (props) => {
                 <Character
                   character={character}
                   handleSaveCharacter={handleSaveCharacter}
+                  removeCharacter={removeCharacter}
                 />
               </Paper>
             </Grid>
