@@ -28,7 +28,7 @@ async function saveCharacterToDatabase(payload) {
     );
     return {
       success: true,
-      msg: "Characters saved successfully",
+      msg: "Character saved successfully",
       data: resData,
     };
   } catch (err) {
