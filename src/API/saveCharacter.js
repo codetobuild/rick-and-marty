@@ -21,10 +21,13 @@ async function saveCharacterToDatabase(payload) {
     // save character only if not saved yet
     const { episode, location, origin, ...resData } = payload;
     // save only necessary data to save localstorage space
-    const currentSavedCharacters = [...allSaveCharactersArray, { ...resData }];
+    const CURRENT_SAVED_CHARACTERS = [
+      ...allSaveCharactersArray,
+      { ...resData },
+    ];
     localStorage.setItem(
       "saveCharacters",
-      JSON.stringify(currentSavedCharacters)
+      JSON.stringify(CURRENT_SAVED_CHARACTERS)
     );
     return {
       success: true,
