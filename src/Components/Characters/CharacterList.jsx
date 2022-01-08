@@ -2,9 +2,10 @@ import React from "react";
 import Character from "./Character";
 import { Container, Grid, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import saveCharacterToDatabase from "../API/saveCharacter";
+import saveCharacterToDatabase from "../../API/saveCharacter";
+import MyToastContainer from "../MyToastContainer";
 
 const CharacterList = (props) => {
   const { characters, removeCharacter } = props;
@@ -32,15 +33,7 @@ const CharacterList = (props) => {
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnHover
-      />
+      <MyToastContainer />
       <Container>
         <Grid
           container
@@ -52,7 +45,7 @@ const CharacterList = (props) => {
           }}>
           {characters?.map((character) => (
             <Grid item xs="auto" key={character.id}>
-              <Paper>
+              <Paper sx={{ boxShadow: 0 }}>
                 <Character
                   character={character}
                   handleSaveCharacter={handleSaveCharacter}

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import registerUser from "../API/RegisterUser";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
@@ -13,45 +12,46 @@ import {
   CardContent,
   Tooltip,
 } from "@mui/material";
+import loginUser from "../../API/LoginUser";
+import MyToastContainer from "../MyToastContainer";
 
 const initialFormState = {
-  fullname: "",
   email: "",
   password: "",
 };
 
-// compoment function
-const Register = () => {
-  const [user, setUser] = useState(initialFormState);
+const Login = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(initialFormState);
+
   const handleChange = (e) => {
     setUser((prevState) => ({ ...prevState, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = await registerUser(user); // call api
-    if (!data.success) {
-      toast.error(`${data.msg} `);
-      console.error(data.msg);
+    const data = await loginUser(user); // call api
+    if (data.success) {
+      // if login success
+      console.log("login successful");
+      localStorage.setItem("isLoggedIn", true);
+      navigate("/", { replace: true });
       return;
     }
-    // redirect to login page
-    navigate("/login", { replace: true });
+    // if login failed
+    toast.error(`${data.msg}`);
   };
-  
+
+  useEffect(() => {
+    if (localStorage.getItem("isLoggedIn")) {
+      // user already logged in
+      navigate("/", { replace: true });
+    }
+  });
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnHover
-      />
+      <MyToastContainer />
       <Container sx={{ marginTop: 10 }}>
         <Card
           sx={{
@@ -66,22 +66,12 @@ const Register = () => {
               component="h1"
               textAlign="center"
               sx={{ margin: 5 }}>
-              Register
+              Login
             </Typography>
-            <TextField
-              label="Fullname"
-              id="fullname"
-              name="fullname"
-              margin="normal"
-              value={user.fullname}
-              onChange={handleChange}
-              fullWidth
-            />
             <TextField
               label="Email"
               id="email"
               name="email"
-              type="email"
               margin="normal"
               value={user.email}
               onChange={handleChange}
@@ -102,17 +92,17 @@ const Register = () => {
               size="large"
               sx={{ paddingX: 5, paddingY: 1, marginY: 2 }}
               onClick={handleSubmit}>
-              Register
+              Login
             </Button>
             <Typography
               paragraph
               gutterBottom
               variant="subtitle2"
               sx={{ fontSize: "1rem" }}>
-              Already have an account?{" "}
+              Don't have an account?{" "}
               <Tooltip title="Log in">
-                <Link to="/login" style={{ textDecoration: "none" }}>
-                  Login
+                <Link to="/register" style={{ textDecoration: "none" }}>
+                  Register
                 </Link>
               </Tooltip>
             </Typography>
@@ -123,4 +113,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

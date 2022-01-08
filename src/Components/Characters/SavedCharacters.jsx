@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CharacterList from "./CharacterList";
-import Navbar from "./Navbar";
-import SearchBar from "./SearchBar";
+import Navbar from "../Navbar";
+import SearchBar from "../SearchBar";
 import { Typography, Container } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import MyToastContainer from "../MyToastContainer";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SavedCharacters = () => {
@@ -22,7 +23,6 @@ const SavedCharacters = () => {
   // get saved characters from local storage
   useEffect(() => {
     let savedCharacters = localStorage.getItem("saveCharacters");
-
     savedCharacters = JSON.parse(savedCharacters);
     console.log(savedCharacters);
     setCharactersData([...savedCharacters]);
@@ -45,37 +45,13 @@ const SavedCharacters = () => {
     toast.success(`${payload.name} removed successfully`);
   };
 
-  // filter characters based on search text
-  const filterCharacters = ({ searchText = "", searchBy = "name" }) => {
-    console.log(searchText);
-    console.log(searchBy);
-    const currentFilteredCharacters = charactersData.filter((item) => {
-      searchText = searchText.trim().toLocaleLowerCase();
-      return searchText === item[searchBy].trim().toLocaleLowerCase();
-    });
-    setfilteredCharactersData([...currentFilteredCharacters]);
-  };
-  // clear all filters
-  const clearFilterTag = () => {
-    setfilteredCharactersData([...charactersData]);
-  };
-
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnHover
-      />
+      {<MyToastContainer />}
       <Navbar />
       <SearchBar
-        filterCharacters={filterCharacters}
+        setfilteredCharactersData={setfilteredCharactersData}
         charactersData={charactersData}
-        clearFilterTag={clearFilterTag}
       />
       <Container sx={{ marginBottom: 1 }}>
         <Typography variant="h4" sx={{ textAlign: "center" }}>

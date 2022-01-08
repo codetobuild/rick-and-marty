@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Box, Typography } from "@mui/material";
-import "../App.css";
+import "../../App.css";
 
 const Character = (props) => {
   const { character, handleSaveCharacter, removeCharacter } = props;

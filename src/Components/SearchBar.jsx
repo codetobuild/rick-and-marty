@@ -16,7 +16,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 
 const SearchBar = (props) => {
-  const { filterCharacters, charactersData, clearFilterTag } = props;
+  const { setfilteredCharactersData, charactersData } = props;
 
   const [value, setValue] = useState("");
   const [inputValue, setInputValue] = useState("");
@@ -25,18 +25,32 @@ const SearchBar = (props) => {
   const [filterTag, setFilterTag] = useState("");
 
   const handleClick = (e) => {
-    const filterCondition = { searchBy, searchText: inputValue };
-    // raise event
-    if (searchBy && inputValue) {
-      filterCharacters(filterCondition);
-      setFilterTag(inputValue);
-      setInputValue("");
+    // handle empty input
+    if (searchBy.length === 0 || inputValue.length === 0) {
+      return;
     }
+
+    // filter character based on search text
+    const filterCharacters = () => {
+      const currentFilteredCharacters = charactersData.filter((item) => {
+        const SEARCH_TEXT = inputValue.trim().toLocaleLowerCase();
+        const TARGET_SEARCH_TEXT = item[searchBy].trim().toLocaleLowerCase();
+        return SEARCH_TEXT === TARGET_SEARCH_TEXT;
+      });
+      setfilteredCharactersData([...currentFilteredCharacters]);
+    };
+    filterCharacters();
+    setFilterTag(inputValue);
+    setInputValue("");
   };
+
+  const clearFilters = () => {
+    setfilteredCharactersData([...charactersData]);
+  };
+
   const handleTagDelete = (e) => {
-    // clear all filters so display all data again
-    clearFilterTag(); // raise event
-    setFilterTag(""); // reset filter tag
+    clearFilters(); // clear all filters
+    setFilterTag(""); // clear filter tag
   };
 
   // update autosuggestions
@@ -52,7 +66,7 @@ const SearchBar = (props) => {
     setAutosuggesstions(currentAutosuggestions);
   }, [searchBy, charactersData]);
 
-  // component function
+  // component 
   return (
     <Container
       sx={{
