@@ -81,6 +81,13 @@ const SavedCharacters = () => {
         <Typography variant="h4" sx={{ textAlign: "center" }}>
           Saved Characters
         </Typography>
+        {charactersData.length === 0 && (
+          <Typography
+            variant="overline"
+            sx={{ fontSize: "1.2rem", color: "gray" }}>
+            You have no saved characters
+          </Typography>
+        )}
       </Container>
       <CharacterList
         characters={filteredCharactersData}
