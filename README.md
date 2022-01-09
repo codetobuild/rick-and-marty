@@ -2,6 +2,10 @@
 
 This is a simple front-end project that displays the episode Characters. It includes featues like user registration and login.
 More features are to be added to this project. So, stay tuned.
+## Project Demo link 
+
+[Click here to view project](https://akash-rickmarty.netlify.app/)
+
 
 ## Project status
 
