@@ -14,59 +14,21 @@ import {
   IconButton,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import withSearchBar from "../helpers/withSearchBar";
 
 const SearchBar = (props) => {
-  const { setfilteredCharactersData, charactersData } = props;
+  const {
+    inputValue,
+    setInputValue,
+    autosuggesstions,
+    handleSearch,
+    filterTag,
+    handleTagDelete,
+    searchBy,
+    setSearchBy,
+  } = props.dataProps;
 
-  const [value, setValue] = useState("");
-  const [inputValue, setInputValue] = useState("");
-  const [searchBy, setSearchBy] = useState("name");
-  const [autosuggesstions, setAutosuggesstions] = useState([]);
-  const [filterTag, setFilterTag] = useState("");
-
-  const handleClick = (e) => {
-    // handle empty input
-    if (searchBy.length === 0 || inputValue.length === 0) {
-      return;
-    }
-
-    // filter character based on search text
-    const filterCharacters = () => {
-      const currentFilteredCharacters = charactersData.filter((item) => {
-        const SEARCH_TEXT = inputValue.trim().toLocaleLowerCase();
-        const TARGET_SEARCH_TEXT = item[searchBy].trim().toLocaleLowerCase();
-        return SEARCH_TEXT === TARGET_SEARCH_TEXT;
-      });
-      setfilteredCharactersData([...currentFilteredCharacters]);
-    };
-    filterCharacters();
-    setFilterTag(inputValue);
-    setInputValue("");
-  };
-
-  const clearFilters = () => {
-    setfilteredCharactersData([...charactersData]);
-  };
-
-  const handleTagDelete = (e) => {
-    clearFilters(); // clear all filters
-    setFilterTag(""); // clear filter tag
-  };
-
-  // update autosuggestions
-  useEffect(() => {
-    let currentAutosuggestions = [];
-    if (charactersData?.length) {
-      currentAutosuggestions = charactersData.map((item) =>
-        String(item[searchBy])
-      );
-    }
-    // remove duplicate suggestions
-    currentAutosuggestions = [...new Set(currentAutosuggestions)];
-    setAutosuggesstions(currentAutosuggestions);
-  }, [searchBy, charactersData]);
-
-  // component 
+  // component
   return (
     <Container
       sx={{
@@ -89,10 +51,6 @@ const SearchBar = (props) => {
         <Stack spacing={1} sx={{ flexGrow: 1 }}>
           <Autocomplete
             freeSolo
-            value={value}
-            onChange={(event, newValue) => {
-              setValue(newValue);
-            }}
             inputValue={inputValue}
             onInputChange={(event, newInputValue) => {
               setInputValue(newInputValue);
@@ -117,7 +75,7 @@ const SearchBar = (props) => {
         <IconButton
           tooltip="search"
           sx={{ width: 50, height: 50 }}
-          onClick={handleClick}>
+          onClick={handleSearch}>
           <SearchIcon sx={{ color: "gray" }} />
         </IconButton>
       </Box>
@@ -154,4 +112,4 @@ const SearchBar = (props) => {
   );
 };
 
-export default SearchBar;
+export default withSearchBar(SearchBar);
